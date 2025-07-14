@@ -1,0 +1,13 @@
+.env
+__pycache__/
+*.pyc
+*.log
+*.tmp
+venv/
+.venv/
+env/
+*.wav
+*.mp3
+*.ogg
+.DS_Store
+sensitive_data.json

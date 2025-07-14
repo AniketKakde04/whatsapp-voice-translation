@@ -1,0 +1,7 @@
+Flask
+python-dotenv
+twilio
+cryptography
+google-generativeai
+supabase
+requests
