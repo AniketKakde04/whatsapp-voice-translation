@@ -33,7 +33,7 @@ def forward_to_analyzer(text):
         print("❌ Analyzer service error:", e)
         return {"secured_text": text, "log": []}
 
-def transcribe_and_process_audio(transcript):
+def transcribe_and_translate(transcript):
     translated = translate_text(transcript)
     result = forward_to_analyzer(translated)
     secured_text = result["secured_text"]
