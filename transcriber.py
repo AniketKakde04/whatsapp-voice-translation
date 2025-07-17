@@ -1,15 +1,17 @@
-# transcriber.py
-import whisper
-import tempfile
 import os
+import tempfile
+import whisper
+import ffmpeg_static
 
-model = whisper.load_model("tiny")  # You can use "tiny", "base", "small", etc.
+# Add ffmpeg-static to PATH so Whisper can use it
+os.environ["PATH"] = ffmpeg_static.add_paths(os.environ["PATH"])
+
+model = whisper.load_model("tiny")
 
 def transcribe_audio(audio_bytes: bytes) -> str:
-    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp_file:
-        tmp_file.write(audio_bytes)
-        tmp_file_path = tmp_file.name
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=True) as temp_audio:
+        temp_audio.write(audio_bytes)
+        temp_audio.flush()
 
-    result = model.transcribe(tmp_file_path)
-    os.remove(tmp_file_path)
-    return result["text"]
+        result = model.transcribe(temp_audio.name)
+        return result["text"]
