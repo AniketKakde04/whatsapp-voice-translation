@@ -10,3 +10,4 @@ google-generativeai
 chromadb
 nltk
 sentence_transformers
+faiss-cpu
