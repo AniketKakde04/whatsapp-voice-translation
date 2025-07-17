@@ -9,3 +9,4 @@ cryptography
 google-generativeai
 chromadb
 nltk
+sentence_transformers
