@@ -7,3 +7,5 @@ vosk
 soundfile
 cryptography
 google-generativeai
+chromadb
+nltk
