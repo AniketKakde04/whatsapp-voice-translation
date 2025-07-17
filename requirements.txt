@@ -1,8 +1,9 @@
-Flask
-python-dotenv
 twilio
+gunicorn
+flask
+requests
+python-dotenv
+vosk
+soundfile
 cryptography
 google-generativeai
-supabase
-requests
-gunicorn

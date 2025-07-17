@@ -1,35 +1,42 @@
+# app.py
+
 import os
 from flask import Flask, request
 from dotenv import load_dotenv
 from twilio.twiml.messaging_response import MessagingResponse
-from gemini_utils import transcribe_and_translate
 from twilio_utils import download_audio_file
+from transcription_utils import transcribe_audio
+from sensitive_utils.detector import detect_and_encrypt_sensitive
+from gemini_utils import gemini_translate
+from sensitive_utils.chroma_db import load_examples
+
+load_examples()  # Call once at startup
 
 load_dotenv()
 app = Flask(__name__)
 
 @app.route("/webhook", methods=["POST"])
 def whatsapp_webhook():
-    num_media = int(request.form.get("NumMedia", 0))
     resp = MessagingResponse()
+    num_media = int(request.form.get("NumMedia", 0))
 
     if num_media == 0:
-        resp.message("Please send a voice message in any Indian language.")
-        return str(resp)
+        text = request.form.get("Body", "")
+    else:
+        media_url = request.form.get("MediaUrl0")
+        media_type = request.form.get("MediaContentType0", "")
+        if "audio" not in media_type:
+            resp.message("Unsupported format. Send a voice note or text.")
+            return str(resp)
+        audio_bytes = download_audio_file(media_url)
+        try:
+            text = transcribe_audio(audio_bytes)
+        except Exception as e:
+            print("Transcription error:", e)
+            resp.message("Error transcribing audio. Please send clear voice note.")
+            return str(resp)
 
-    media_url = request.form.get("MediaUrl0")
-    media_content_type = request.form.get("MediaContentType0", "")
-
-    if not any(fmt in media_content_type for fmt in ["audio", "mp3", "wav", "ogg"]):
-        resp.message("Unsupported audio format. Please send MP3, WAV or OGG voice note.")
-        return str(resp)
-
-    try:
-        audio_data = download_audio_file(media_url)
-        translated_text = transcribe_and_translate(audio_data)
-        resp.message(f"🗣 Translated to English:\n\n{translated_text}")
-    except Exception as e:
-        print("Error:", e)
-        resp.message("Sorry, could not process your voice note. Try again.")
-
+    secured_text = detect_and_encrypt_sensitive(text)
+    translated = gemini_translate(secured_text)
+    resp.message(f"Translated Output:\n\n{translated}")
     return str(resp)

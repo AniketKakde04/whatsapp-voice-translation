@@ -11,3 +11,33 @@ env/
 *.ogg
 .DS_Store
 sensitive_data.json
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.env
+*.env
+.venv/
+venv/
+env/
+pip-log.txt
+*.log
+
+# Models & audio files
+models/
+*.wav
+*.mp3
+*.ogg
+
+# VSCode
+.vscode/
+
+# OS / Misc
+.DS_Store
+Thumbs.db
+
+# Render
+chroma_storage/
