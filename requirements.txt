@@ -6,6 +6,6 @@ google-generativeai
 supabase
 requests
 gunicorn
-whisper @ git+https://github.com/openai/whisper.git
+git+https://github.com/openai/whisper.git
 ffmpeg-static
 torch  # or torchaudio if needed
