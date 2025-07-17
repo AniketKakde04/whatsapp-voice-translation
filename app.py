@@ -1,24 +1,35 @@
-# app.py (App A - Updated for Secure Translation)
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request
+from dotenv import load_dotenv
+from twilio.twiml.messaging_response import MessagingResponse
 from gemini_utils import transcribe_and_translate
+from twilio_utils import download_audio_file
 
+load_dotenv()
 app = Flask(__name__)
 
 @app.route("/webhook", methods=["POST"])
-def webhook():
-    # Receive audio bytes from Twilio
-    audio_bytes = request.data
-    if not audio_bytes:
-        return jsonify({"error": "No audio data received"}), 400
+def whatsapp_webhook():
+    num_media = int(request.form.get("NumMedia", 0))
+    resp = MessagingResponse()
 
-    # Process audio: transcribe -> mask -> translate
+    if num_media == 0:
+        resp.message("Please send a voice message in any Indian language.")
+        return str(resp)
+
+    media_url = request.form.get("MediaUrl0")
+    media_content_type = request.form.get("MediaContentType0", "")
+
+    if not any(fmt in media_content_type for fmt in ["audio", "mp3", "wav", "ogg"]):
+        resp.message("Unsupported audio format. Please send MP3, WAV or OGG voice note.")
+        return str(resp)
+
     try:
-        translated_text = transcribe_and_translate(audio_bytes)
-        return jsonify({"translated_text": translated_text}), 200
+        audio_data = download_audio_file(media_url)
+        translated_text = transcribe_and_translate(audio_data)
+        resp.message(f"🗣 Translated to English:\n\n{translated_text}")
     except Exception as e:
-        print(f"[ERROR] Translation pipeline failed: {e}")
-        return jsonify({"error": "Failed to process audio"}), 500
+        print("Error:", e)
+        resp.message("Sorry, could not process your voice note. Try again.")
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    return str(resp)

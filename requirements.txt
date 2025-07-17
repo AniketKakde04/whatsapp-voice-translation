@@ -6,7 +6,3 @@ google-generativeai
 supabase
 requests
 gunicorn
-git+https://github.com/openai/whisper.git
-torch  # or torchaudio if needed
-tqdm
-numpy
