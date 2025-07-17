@@ -1,10 +1,7 @@
 import os
 import tempfile
 import whisper
-import ffmpeg_static
 
-# Add ffmpeg-static to PATH so Whisper can use it
-os.environ["PATH"] = ffmpeg_static.add_paths(os.environ["PATH"])
 
 model = whisper.load_model("tiny")
 
