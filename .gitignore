@@ -1,43 +1,36 @@
-.env
-__pycache__/
-*.pyc
-*.log
-*.tmp
-venv/
-.venv/
-env/
-*.wav
-*.mp3
-*.ogg
-.DS_Store
-sensitive_data.json
 # Python
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-*.so
-*.egg-info/
-.env
-*.env
-.venv/
-venv/
-env/
-pip-log.txt
+*.pyc
 *.log
 
-# Models & audio files
-models/
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Env & secrets
+.env
+
+# Streamlit cache
+.streamlit/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+.DS_Store
+*.sqlite3
+
+# Audio files
 *.wav
 *.mp3
-*.ogg
+
+# FFmpeg binaries
+ffmpeg/
 
 # VSCode
 .vscode/
-
-# OS / Misc
-.DS_Store
-Thumbs.db
-
-# Render
-chroma_storage/

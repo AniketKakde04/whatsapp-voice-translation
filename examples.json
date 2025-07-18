@@ -1,0 +1,7 @@
+[
+  {"text": "My PAN is ABCDE1234F", "label": "PAN"},
+  {"text": "Aadhaar number is 1234 5678 9012", "label": "AADHAAR"},
+  {"text": "Phone: 9876543210", "label": "PHONE"},
+  {"text": "My bank account number is 123456789", "label": "ACCOUNT"},
+  {"text": "Email me at test@example.com", "label": "EMAIL"}
+]

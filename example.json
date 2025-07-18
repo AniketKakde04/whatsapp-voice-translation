@@ -1,7 +1,0 @@
-[
-  { "text": "My PAN number is ABCDE1234F", "label": "PAN" },
-  { "text": "Her Aadhaar is 1234 5678 9012", "label": "AADHAAR" },
-  { "text": "Call me on 9876543210", "label": "PHONE" },
-  { "text": "My UPI ID is test@upi", "label": "UPI" },
-  { "text": "Bank account: 123456789", "label": "ACCOUNT" }
-]
